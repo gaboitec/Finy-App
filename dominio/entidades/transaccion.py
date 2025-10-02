@@ -1,10 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum
-
-class TipoTransaccion(Enum):
-    INGRESO = "ingreso"
-    GASTO = "gasto"
+from dominio.objetos_valor.tipo_transaccion import TipoTransaccion
+from dominio.objetos_valor.metodo_transaccion import MetodoTransaccion
 
 @dataclass
 class Transaccion:
@@ -12,6 +9,8 @@ class Transaccion:
     id_usuario: int
     id_categoria: int
     tipo: TipoTransaccion
+    fecha: datetime
     cantidad: float
     descripcion: str
-    fecha: datetime
+    metodo: MetodoTransaccion
+
