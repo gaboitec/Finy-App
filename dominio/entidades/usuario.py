@@ -3,10 +3,10 @@ from datetime import datetime
 from dominio.objetos_valor.estado_usuario import Estado
 
 @dataclass
-class Usurario:
+class Usuario:
     id: int | None
     nombre: str
     correo: str
-    contrasenia: hash
+    contrasenia: str
     fecha_creacion: datetime
     estado: Estado = Estado.ACTIVO
