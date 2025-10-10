@@ -20,7 +20,7 @@ class UsuariosRepo:
                 usuario.correo,
                 usuario.contrasenia,
                 usuario.fecha_creacion.isoformat(),
-                usuario.estado.value  # si usas Enum
+                usuario.estado.value
             ))
             conn.commit()
             return cur.lastrowid
