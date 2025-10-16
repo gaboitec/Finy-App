@@ -1,7 +1,5 @@
-# app/gui/views/home_view.py
-
 import tkinter as tk
-from tkinter import ttk
+#from tkinter import ttk
 
 class HomeView(tk.Frame):
     def __init__(self, master, usuario, servicios):

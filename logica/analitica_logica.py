@@ -1,7 +1,7 @@
 from gestores.transacciones_gestor import TransactionsRepo
 from gestores.presupuestos_gestor import PresupuestosRepo
 from dominio.objetos_valor.tipo_transaccion import TipoTransaccion
-from datetime import datetime
+#from datetime import datetime
 from collections import defaultdict
 
 class AnalyticsService:
