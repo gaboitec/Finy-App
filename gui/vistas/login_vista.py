@@ -43,7 +43,3 @@ class LoginView(tk.Tk):
         contra = self.entry_contra.get()
         print(f"[LOGIN] Usuario: {correo} - Contraseña: {contra}")
         messagebox.showinfo("Inicio de sesión", "Sesión iniciada (simulada)")
-
-if __name__ == "__main__":
-    app = LoginView()
-    app.mainloop()

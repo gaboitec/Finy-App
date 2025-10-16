@@ -1,4 +1,4 @@
-from app.servicios.export_service import ExportService
+from logica.export_logica import ExportService
 
 datos = [
     {"Fecha": "2025-10-01", "Tipo": "Gasto", "Cantidad": 150.0, "Categoría": "Comida"},
