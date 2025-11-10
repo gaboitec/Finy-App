@@ -13,7 +13,7 @@ class AnalyticsService:
         transacciones = self.tx_repo.obtener_por_usuario(id_usuario)
         totales = {"ingreso": 0.0, "gasto": 0.0}
         for tx in transacciones:
-            totales[tx.tipo.value] += tx.cantidad
+            totales[str(tx.tipo.value)] += tx.cantidad
         return totales
 
     def total_por_categoria(self, id_usuario: int) -> dict[int, float]:

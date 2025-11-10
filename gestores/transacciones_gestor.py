@@ -1,11 +1,11 @@
 import sqlite3
-from datetime import datetime
+from datetime import date
 from dominio.entidades.transaccion import Transaccion
 from dominio.objetos_valor.metodo_transaccion import MetodoTransaccion
 from dominio.objetos_valor.tipo_transaccion import TipoTransaccion
 
 class TransactionsRepo:
-    def __init__(self, db_path: str = "data/app.db"):
+    def __init__(self, db_path: str = "datos/app.db"):
         self.db_path = db_path
 
     def _connect(self):
@@ -32,7 +32,7 @@ class TransactionsRepo:
         with self._connect() as conn:
             cur = conn.cursor()
             cur.execute("""
-                SELECT id, id_usuario, id_categoria, tipo, cantidad, descripcion, fecha
+                SELECT id, id_usuario, id_categoria, tipo, fecha, cantidad, descripcion, metodo
                 FROM transacciones
                 WHERE id_usuario = ?
                 ORDER BY fecha DESC
@@ -45,9 +45,9 @@ class TransactionsRepo:
                 id_usuario=row[1],
                 id_categoria=row[2],
                 tipo=TipoTransaccion(row[3]),
-                fecha=datetime.fromisoformat(row[6]),
-                cantidad=row[4],
-                descripcion=row[5],
+                fecha=row[4],
+                cantidad=row[5],
+                descripcion=row[6],
                 metodo=MetodoTransaccion(row[7])
             )
             for row in rows

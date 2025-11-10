@@ -8,6 +8,7 @@ class Deuda:
     id_usuario: int
     plazo_inicio: date
     plazo_fin: date
+    fecha_pago: date
     cantidad: float
     interes: float
     descripcion: str

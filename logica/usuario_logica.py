@@ -18,5 +18,5 @@ class UsuarioService:
         )
         return self.repo.crear(usuario)
 
-    def buscar_por_correo(self, correo: str) -> Usuario | None:
-        return self.repo.obtener_por_correo(correo)
+    def buscar_por_correo(self, correo: str, contr: str) -> Usuario | None:
+        return self.repo.obtener_por_correo(correo, contr)

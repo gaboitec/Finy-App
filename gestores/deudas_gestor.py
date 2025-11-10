@@ -4,7 +4,7 @@ from dominio.objetos_valor.estado_deuda import  EstadoDeuda
 from datetime import date
 
 class DeudasRepo:
-    def __init__(self, db_path: str = "data/app.db"):
+    def __init__(self, db_path: str = "datos/app.db"):
         self.db_path = db_path
 
     def _connect(self):
@@ -32,7 +32,7 @@ class DeudasRepo:
         with self._connect() as conn:
             cur = conn.cursor()
             cur.execute("""
-                SELECT id, id_usuario, plazo_inicio, plazo_fin, cantidad, interes, descripcion, estado
+                SELECT id, id_usuario, plazo_inicio, plazo_fin, fecha_pago, cantidad, interes, descripcion, estado
                 FROM deudas
                 WHERE id_usuario = ?
                 ORDER BY plazo_fin ASC
@@ -45,10 +45,11 @@ class DeudasRepo:
                 id_usuario=row[1],
                 plazo_inicio=date.fromisoformat(row[2]),
                 plazo_fin=date.fromisoformat(row[3]),
-                cantidad=row[4],
-                interes=row[5],
-                descripcion=row[6],
-                estado=EstadoDeuda(row[7])
+                fecha_pago=date.fromisoformat(row[4]),
+                cantidad=row[5],
+                interes=row[6],
+                descripcion=row[7],
+                estado=EstadoDeuda(row[8])
             )
             for row in rows
         ]

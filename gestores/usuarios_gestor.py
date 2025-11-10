@@ -25,14 +25,14 @@ class UsuariosRepo:
             conn.commit()
             return cur.lastrowid
 
-    def obtener_por_correo(self, correo: str) -> Usuario | None:
+    def obtener_por_correo(self, correo: str, contrasenia: str) -> Usuario | None:
         with self._connect() as conn:
             cur = conn.cursor()
             cur.execute("""
-                SELECT id, nombre, correo, contraseña_hash, fecha_creacion, estado
+                SELECT *
                 FROM usuarios
-                WHERE correo = ?
-            """, (correo,))
+                WHERE correo = ? AND contraseña_hash = ?
+            """, (correo,contrasenia))
             row = cur.fetchone()
 
         if row:
@@ -42,6 +42,6 @@ class UsuariosRepo:
                 correo=row[2],
                 contrasenia=row[3],
                 fecha_creacion=date.fromisoformat(row[4]),
-                estado=row[5]  # puedes convertir a Enum si lo usas
+                estado=row[5]
             )
         return None
