@@ -15,3 +15,6 @@ class CategoriaService:
 
     def listar_por_usuario(self, id_usuario: int) -> list[Categoria]:
         return self.repo.obtener_por_usuario(id_usuario)
+
+    def buscar_por_nombre(self, usuario, cat):
+        return self.repo.por_nombre(usuario, cat)[0]

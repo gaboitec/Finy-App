@@ -2,7 +2,7 @@ import sqlite3
 from dominio.entidades.categoria import Categoria
 
 class CategoriasRepo:
-    def __init__(self, db_path: str = "data/app.db"):
+    def __init__(self, db_path: str = "datos/app.db"):
         self.db_path = db_path
 
     def _connect(self):
@@ -27,6 +27,21 @@ class CategoriasRepo:
                 WHERE id_usuario = ?
                 ORDER BY nombre ASC
             """, (id_usuario,))
+            rows = cur.fetchall()
+
+        return [
+            Categoria(id=row[0], id_usuario=row[1], nombre=row[2])
+            for row in rows
+        ]
+
+    def por_nombre(self, user, cat):
+        with self._connect() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT *
+                FROM categorias
+                WHERE id_usuario = ? AND nombre = ?
+            """, (user,cat))
             rows = cur.fetchall()
 
         return [

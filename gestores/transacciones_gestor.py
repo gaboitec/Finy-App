@@ -15,15 +15,16 @@ class TransactionsRepo:
         with self._connect() as conn:
             cur = conn.cursor()
             cur.execute("""
-                INSERT INTO transacciones (id_usuario, id_categoria, tipo, cantidad, descripcion, fecha)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO transacciones (id_usuario, id_categoria, tipo, fecha, cantidad, descripcion, metodo)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (
                 tx.id_usuario,
                 tx.id_categoria,
                 tx.tipo.value,
+                tx.fecha.isoformat(),
                 tx.cantidad,
                 tx.descripcion,
-                tx.fecha.isoformat()
+                tx.metodo.value
             ))
             conn.commit()
             return cur.lastrowid
@@ -32,10 +33,12 @@ class TransactionsRepo:
         with self._connect() as conn:
             cur = conn.cursor()
             cur.execute("""
-                SELECT id, id_usuario, id_categoria, tipo, fecha, cantidad, descripcion, metodo
-                FROM transacciones
-                WHERE id_usuario = ?
-                ORDER BY fecha DESC
+                SELECT t.id, t.id_usuario, t.id_categoria, t.tipo, t.fecha, t.cantidad, t.descripcion, t.metodo, c.nombre
+                FROM transacciones AS t
+                INNER JOIN categorias AS c
+                    ON t.id_usuario = c.id_usuario AND t.id_categoria = c.id
+                WHERE t.id_usuario = ?
+                ORDER BY t.fecha DESC
             """, (id_usuario,))
             rows = cur.fetchall()
 
@@ -48,7 +51,8 @@ class TransactionsRepo:
                 fecha=row[4],
                 cantidad=row[5],
                 descripcion=row[6],
-                metodo=MetodoTransaccion(row[7])
+                metodo=MetodoTransaccion(row[7]),
+                categoria=row[8]
             )
             for row in rows
         ]

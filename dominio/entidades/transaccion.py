@@ -13,4 +13,5 @@ class Transaccion:
     cantidad: float
     descripcion: str
     metodo: MetodoTransaccion
+    categoria: str
 

@@ -39,11 +39,7 @@ class App:
 
     def _mostrar_home(self):
         self._limpiar_vista()
-        servicios = {
-            "analytics": self.analytics_logica,
-            "deuda": self.deuda_logica
-        }
-        self.home_view = HomeView(self.root, self.usuario, servicios)
+        self.home_view = HomeView(self.root, self.usuario)
         self.home_view.pack(fill="both", expand=True)
 
     def mostrar_registro(self):

@@ -7,10 +7,9 @@ from gui.vistas.deudas_vista import DeudasView
 from gui.vistas.deudores_vista import DeudoresView
 
 class HomeView(tk.Frame):
-    def __init__(self, master, usuario, servicios):
+    def __init__(self, master, usuario):
         super().__init__(master)
         self.usuario = usuario
-        self.servicios = servicios
         self.configure(bg="white")
         self.pack(fill="both", expand=True)
         self._construir_interfaz()
@@ -48,5 +47,5 @@ class HomeView(tk.Frame):
     def _cambiar_vista(self, vista_clase):
         for widget in self.content_frame.winfo_children():
             widget.destroy()
-        nueva_vista = vista_clase(self.content_frame, self.usuario, self.servicios)
+        nueva_vista = vista_clase(self.content_frame, self.usuario)
         nueva_vista.pack(fill="both", expand=True)

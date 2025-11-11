@@ -4,7 +4,7 @@ class FormularioBase(tk.Toplevel):
     def __init__(self, master, titulo="Formulario"):
         super().__init__(master)
         self.title(titulo)
-        self.geometry("400x300")
+        self.geometry("400x500")
         self.configure(bg="white")
         self.campos = {}
 
