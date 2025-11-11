@@ -19,7 +19,7 @@ class App:
         self.root.geometry("900x600")
         self.usuario = None
 
-        self.usuario_logica = UsuarioService(UsuariosRepo())
+        #self.usuario_logica = UsuarioService(UsuariosRepo())
         self.analytics_logica = AnalyticsService(TransactionsRepo(), PresupuestosRepo())
         self.deuda_logica = DeudaService(DeudasRepo())
 

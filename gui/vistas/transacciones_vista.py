@@ -1,14 +1,18 @@
 import tkinter as tk
 from tkinter import ttk
-from app.gui.componentes.encabezado_botones import EncabezadoBotones
-from app.gui.componentes.tabla_registros import TablaRegistros
-from app.gui.componentes.formulario_transaccion import FormularioTransaccion
+from gui.componentes.encabezado_botones import EncabezadoBotones
+from gui.componentes.tabla_registros import TablaRegistros
+from gui.componentes.formulario_transaccion import FormularioTransaccion
+
+from logica.transaccion_logica import TransaccionService
+from gestores.transacciones_gestor import TransactionsRepo
 
 class TransaccionesView(tk.Frame):
     def __init__(self, master, usuario, servicios):
         super().__init__(master)
         self.usuario = usuario
         self.servicios = servicios
+        self.tx_service = TransaccionService(TransactionsRepo())
         self.configure(bg="white")
         self.pack(fill="both", expand=True)
 
@@ -28,7 +32,7 @@ class TransaccionesView(tk.Frame):
         self._cargar_transacciones()
 
     def _cargar_transacciones(self):
-        transacciones = self.servicios["transacciones"].obtener_por_usuario(self.usuario.id)
+        transacciones = self.servicios["analitycs"].obtener_por_usuario(self.usuario.id)
         for tx in transacciones:
             self.tabla.agregar_fila([
                 tx.fecha[:10],

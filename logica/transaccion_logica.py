@@ -22,3 +22,6 @@ class TransaccionService:
     def total_por_tipo(self, id_usuario: int, tipo: TipoTransaccion) -> float:
         transacciones = self.repo.obtener_por_usuario(id_usuario)
         return sum(tx.cantidad for tx in transacciones if tx.tipo == tipo)
+
+    def obtener_por_usuario(self,id_usuario: int):
+        return self.repo.obtener_por_usuario(id_usuario)
