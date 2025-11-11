@@ -1,13 +1,23 @@
 from gestores.transacciones_gestor import TransactionsRepo
 from gestores.presupuestos_gestor import PresupuestosRepo
+from gestores.deudas_gestor import DeudasRepo
+from gestores.deudores_gestor import DeudoresRepo
+
 from dominio.objetos_valor.tipo_transaccion import TipoTransaccion
-#from datetime import datetime
+
+from datetime import datetime, timedelta
 from collections import defaultdict
 
 class AnalyticsService:
-    def __init__(self, tx_repo: TransactionsRepo, presupuesto_repo: PresupuestosRepo):
+    def __init__(self, tx_repo: TransactionsRepo = None, presupuesto_repo: PresupuestosRepo = None,
+                 deuda_repo: DeudasRepo = None, deudor_repo: DeudoresRepo = None):
         self.tx_repo = tx_repo
         self.presupuesto_repo = presupuesto_repo
+        self.deuda_repo = deuda_repo
+        self.deudor_repo = deudor_repo
+
+        self.hoy = datetime.now().date()
+        self.inicio = self.hoy - timedelta(days=30)
 
     def total_por_tipo(self, id_usuario: int) -> dict[str, float]:
         transacciones = self.tx_repo.obtener_por_usuario(id_usuario)
@@ -53,3 +63,84 @@ class AnalyticsService:
             })
 
         return resultados
+
+    def porcentaje_por_categoria(self, id_usuario: int, tipo: str) -> dict[str, float]:
+            transacciones = self.tx_repo.obtener_por_usuario(id_usuario)
+            totales = defaultdict(float)
+            total_general = 0.0
+
+            for tx in transacciones:
+                if tx.tipo.value == tipo:
+                    totales[tx.id_categoria] += tx.cantidad
+                    total_general += tx.cantidad
+
+            return {cat: (valor / total_general) * 100 for cat, valor in totales.items() if total_general > 0}
+
+    def comparacion_ingresos_gastos(self, id_usuario: int) -> dict[str, dict[str, float]]:
+        transacciones = self.tx_repo.obtener_por_usuario(id_usuario)
+        resumen = defaultdict(lambda: {"ingresos": 0.0, "gastos": 0.0})
+
+        for tx in transacciones:
+            mes = tx.fecha[:7]  # YYYY-MM
+            if tx.tipo.value == "ingreso":
+                resumen[mes]["ingresos"] += tx.cantidad
+            elif tx.tipo.value == "gasto":
+                resumen[mes]["gastos"] += tx.cantidad
+
+        return dict(resumen)
+
+    def evolucion_por_tipo(self, id_usuario: int, tipo: str) -> dict[str, float]:
+        transacciones = self.tx_repo.obtener_por_usuario(id_usuario)
+        evolucion = defaultdict(float)
+
+        for tx in transacciones:
+            if tx.tipo.value == tipo:
+                fecha = tx.fecha[:10]  # YYYY-MM-DD
+                evolucion[fecha] += tx.cantidad
+
+        return dict(sorted(evolucion.items()))
+
+    def evolucion_deudas(self, id_usuario: int) -> dict[str, float]:
+        if not self.deuda_repo:
+            return {}
+        deudas = self.deuda_repo.obtener_por_usuario(id_usuario)
+        evolucion = defaultdict(float)
+
+        for deuda in deudas:
+            fecha = deuda.plazo_inicio[:10]
+            evolucion[fecha] += deuda.cantidad
+
+        return dict(sorted(evolucion.items()))
+
+    def evolucion_deudores(self, id_usuario: int) -> dict[str, float]:
+        if not self.deudor_repo:
+            return {}
+        deudores = self.deudor_repo.obtener_por_usuario(id_usuario)
+        evolucion = defaultdict(float)
+
+        for d in deudores:
+            fecha = d.plazo_inicio[:10]
+            evolucion[fecha] += d.plazo_inicio
+
+        return dict(sorted(evolucion.items()))
+
+    def evolucion_presupuestos(self, id_usuario: int) -> dict[str, dict[str, float]]:
+        presupuestos = self.presupuesto_repo.obtener_por_usuario(id_usuario)
+        resumen = defaultdict(lambda: {"asignado": 0.0, "usado": 0.0})
+
+        for p in presupuestos:
+            fecha = p.fecha_inicio[:10]
+            resumen[fecha]["asignado"] += p.monto
+            resumen[fecha]["usado"] += p.total_utilizado  # Asumiendo que se calcula
+
+        return dict(sorted(resumen.items()))
+
+    def evolucion_transacciones(self, id_usuario: int) -> dict[str, int]:
+        transacciones = self.tx_repo.obtener_por_usuario(id_usuario)
+        conteo = defaultdict(int)
+
+        for tx in transacciones:
+            fecha = tx.fecha[:10]
+            conteo[fecha] += 1
+
+        return dict(sorted(conteo.items()))

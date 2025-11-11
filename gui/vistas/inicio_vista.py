@@ -1,5 +1,10 @@
 import tkinter as tk
 #from tkinter import ttk
+from gui.vistas.ReporteVista import DashboardView
+from gui.vistas.transacciones_vista import TransaccionesView
+from gui.vistas.presupuestoVista import PresupuestosView
+from gui.vistas.deudas_vista import DeudasView
+from gui.vistas.deudores_vista import DeudoresView
 
 class HomeView(tk.Frame):
     def __init__(self, master, usuario, servicios):
@@ -9,6 +14,7 @@ class HomeView(tk.Frame):
         self.configure(bg="white")
         self.pack(fill="both", expand=True)
         self._construir_interfaz()
+        self._cambiar_vista(DashboardView)
 
     def _construir_interfaz(self):
         # Frame principal dividido en menú y contenido
@@ -24,10 +30,20 @@ class HomeView(tk.Frame):
         lbl_usuario = tk.Label(menu_frame, text=nombre_usuario, bg="#FF8000", fg="white", font=("Helvetica", 14, "bold"))
         lbl_usuario.pack(pady=(80, 80))
 
-        opciones = ["Inicio", "Transacciones", "Presupuestos", "Deudas", "Deudores"]
-        for texto in opciones:
-            btn = tk.Button(menu_frame, text=texto, bg="#FF8000", fg="white", font=("Helvetica", 12), bd=0, anchor="w")
-            btn.pack(fill="x", padx=40, pady=5)
+        opciones = [
+            ("Inicio", DashboardView),
+            ("Transacciones", TransaccionesView),
+            ("Presupuestos", PresupuestosView),
+            ("Deudas", DeudasView),
+            ("Deudores", DeudoresView)
+        ]
+        for texto, vista in opciones:
+            btn = tk.Button(menu_frame, text=texto, bg="#FF8000", fg="white", font=("Helvetica", 12), bd=0,
+                            command=lambda v=vista: self._cambiar_vista(v))
+            btn.pack(fill="x", padx=20, pady=5)
+
+        self.content_frame = tk.Frame(self, bg="white")
+        self.content_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
 
     def _cambiar_vista(self, vista_clase):
         for widget in self.content_frame.winfo_children():
