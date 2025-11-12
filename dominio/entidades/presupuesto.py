@@ -11,3 +11,4 @@ class Presupuesto:
     cantidad: float
     id_categoria: int | None = None  # opcional
     estado: EstadoPresupuesto = EstadoPresupuesto.ACTIVO
+    categoria: str | None = None  # nombre de la categoría, opcional

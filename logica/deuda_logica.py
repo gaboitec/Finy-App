@@ -18,16 +18,29 @@ class DeudaService:
             cantidad=cantidad,
             interes=interes,
             descripcion=descripcion,
-            estado=EstadoDeuda.PENDIENTE
+            estado=EstadoDeuda.PENDIENTE,
+            fecha_pago=date.today()
         )
         return self.repo.crear(deuda)
 
     def listar_por_usuario(self, id_usuario: int) -> list[Deuda]:
-        return self.repo.obtener_por_usuario(id_usuario)
+        try:
+            return self.repo.obtener_por_usuario(id_usuario)
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return []
 
     def total_adeudado(self, id_usuario: int) -> float:
-        deudas = self.repo.obtener_por_usuario(id_usuario)
-        return sum(d.cantidad + d.cantidad * d.interes / 100 for d in deudas if d.estado == EstadoDeuda.PENDIENTE)
+        try:
+            deudas = self.repo.obtener_por_usuario(id_usuario)
+            return sum(d.cantidad + d.cantidad * d.interes / 100 for d in deudas if d.estado == EstadoDeuda.PENDIENTE)
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return 0.0
 
     def listar_por_estado(self, id_usuario: int, estado: EstadoDeuda) -> list[Deuda]:
-        return [d for d in self.repo.obtener_por_usuario(id_usuario) if d.estado == estado]
+        try:
+            return [d for d in self.repo.obtener_por_usuario(id_usuario) if d.estado == estado]
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return []

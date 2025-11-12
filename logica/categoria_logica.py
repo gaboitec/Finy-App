@@ -14,7 +14,15 @@ class CategoriaService:
         return self.repo.crear(categoria)
 
     def listar_por_usuario(self, id_usuario: int) -> list[Categoria]:
-        return self.repo.obtener_por_usuario(id_usuario)
+        try:
+            return self.repo.obtener_por_usuario(id_usuario)
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return []
 
     def buscar_por_nombre(self, usuario, cat):
-        return self.repo.por_nombre(usuario, cat)[0]
+        try:
+            return self.repo.por_nombre(usuario, cat)[0]
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {usuario}: {e}")
+            return []

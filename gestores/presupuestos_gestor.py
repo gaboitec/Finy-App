@@ -6,7 +6,7 @@ from dominio.entidades.presupuesto import Presupuesto
 from dominio.objetos_valor.estado_presupuesto import EstadoPresupuesto
 
 class PresupuestosRepo:
-    def __init__(self, db_path: str = "data/app.db"):
+    def __init__(self, db_path: str = "datos/app.db"):
         self.db_path = db_path
 
     def _connect(self):
@@ -21,8 +21,8 @@ class PresupuestosRepo:
             """, (
                 presupuesto.id_usuario,
                 presupuesto.id_categoria,
-                presupuesto.fecha_inicio.isoformat(),
-                presupuesto.fecha_fin.isoformat(),
+                presupuesto.fecha_inicio,
+                presupuesto.fecha_fin,
                 presupuesto.cantidad,
                 presupuesto.estado.value
             ))
@@ -33,10 +33,12 @@ class PresupuestosRepo:
         with self._connect() as conn:
             cur = conn.cursor()
             cur.execute("""
-                SELECT id, id_usuario, fecha_inicio, fecha_fin, cantidad, id_categoria, estado
-                FROM presupuestos
-                WHERE id_usuario = ?
-                ORDER BY fecha_inicio DESC
+                SELECT p.id, p.id_usuario, p.fecha_inicio, p.fecha_fin, p.cantidad, p.id_categoria, p.estado, c.nombre
+                FROM presupuestos AS p
+                INNER JOIN categorias AS c
+                    ON p.id_categoria = c.id
+                WHERE p.id_usuario = ?
+                ORDER BY p.fecha_inicio DESC
             """, (id_usuario,))
             rows = cur.fetchall()
 
@@ -48,7 +50,8 @@ class PresupuestosRepo:
                 fecha_fin=date.fromisoformat(row[3]),
                 cantidad=row[4],
                 id_categoria=row[5],
-                estado=EstadoPresupuesto(row[6])
+                estado=EstadoPresupuesto(row[6]),
+                categoria=row[7]
             )
             for row in rows
         ]

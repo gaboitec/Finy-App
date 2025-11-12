@@ -43,9 +43,9 @@ class DeudasRepo:
             Deuda(
                 id=row[0],
                 id_usuario=row[1],
-                plazo_inicio=date.fromisoformat(row[2]),
-                plazo_fin=date.fromisoformat(row[3]),
-                fecha_pago=date.fromisoformat(row[4]),
+                plazo_inicio=row[2],
+                plazo_fin=row[3],
+                fecha_pago=row[4],
                 cantidad=row[5],
                 interes=row[6],
                 descripcion=row[7],

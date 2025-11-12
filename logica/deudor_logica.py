@@ -21,11 +21,23 @@ class DeudorService:
         return self.repo.crear(deudor)
 
     def listar_por_usuario(self, id_usuario: int) -> list[Deudor]:
-        return self.repo.obtener_por_usuario(id_usuario)
+        try:
+            return self.repo.obtener_por_usuario(id_usuario)
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return []
 
-    def total_por_estado(self, id_usuario: int, estado: EstadoDeudor) -> float:
-        deudores = self.repo.obtener_por_usuario(id_usuario)
-        return sum(d.cantidad for d in deudores if d.estado == estado)
+    def total_por_estado(self, id_usuario: int, estado: EstadoDeuda) -> float:
+        try:
+            deudores = self.repo.obtener_por_usuario(id_usuario)
+            return sum(d.cantidad for d in deudores if d.estado == estado)
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return 0.0
 
-    def listar_por_estado(self, id_usuario: int, estado: EstadoDeudor) -> list[Deudor]:
-        return [d for d in self.repo.obtener_por_usuario(id_usuario) if d.estado == estado]
+    def listar_por_estado(self, id_usuario: int, estado: EstadoDeuda) -> list[Deudor]:
+        try:
+            return [d for d in self.repo.obtener_por_usuario(id_usuario) if d.estado == estado]
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {id_usuario}: {e}")
+            return []

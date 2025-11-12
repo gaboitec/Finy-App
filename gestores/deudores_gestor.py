@@ -4,7 +4,7 @@ from dominio.objetos_valor.estado_deuda import  EstadoDeuda
 from datetime import date
 
 class DeudoresRepo:
-    def __init__(self, db_path: str = "data/app.db"):
+    def __init__(self, db_path: str = "datos/app.db"):
         self.db_path = db_path
 
     def _connect(self):
@@ -46,8 +46,8 @@ class DeudoresRepo:
                 nombre=row[2],
                 contacto=row[3],
                 cantidad=row[4],
-                plazo_inicio=date.fromisoformat(row[5]),
-                plazo_fin=date.fromisoformat(row[6]),
+                plazo_inicio=row[5],
+                plazo_fin=row[6],
                 estado=EstadoDeuda(row[7])
             )
             for row in rows

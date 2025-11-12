@@ -8,6 +8,8 @@ from gestores.transacciones_gestor import TransactionsRepo
 from logica.categoria_logica import CategoriaService
 from gestores.categorias_gestor import CategoriasRepo
 
+from logica.exportar_excel import exportar_excel
+
 class TransaccionesView(tk.Frame):
     def __init__(self, master, usuario):
         super().__init__(master)
@@ -60,7 +62,7 @@ class TransaccionesView(tk.Frame):
         )
 
     def _exportar_pdf(self):
-        print("Exportar a PDF (pendiente de implementación)")
+        exportar_excel(self.tabla.tree)
 
     def _exportar_excel(self):
         print("Exportar a Excel (pendiente de implementación)")

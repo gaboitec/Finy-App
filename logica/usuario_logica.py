@@ -19,4 +19,8 @@ class UsuarioService:
         return self.repo.crear(usuario)
 
     def buscar_por_correo(self, correo: str, contr: str) -> Usuario | None:
-        return self.repo.obtener_por_correo(correo, contr)
+        try:
+            return self.repo.obtener_por_correo(correo, contr)
+        except Exception as e:
+            print(f"Error al obtener datos para usuario {correo}: {e}")
+            return None
