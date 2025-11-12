@@ -16,7 +16,8 @@ class App:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("FINY")
-        self.root.geometry("900x600")
+        self.root.minsize(800, 600)
+        self.root.state('zoomed')  # Inicia en pantalla completa (Windows)
         self.usuario = None
 
         #self.usuario_logica = UsuarioService(UsuariosRepo())

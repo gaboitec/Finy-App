@@ -35,15 +35,14 @@ class LoginView(tk.Frame):
         btn_registro.pack()
 
     def _iniciar_sesion(self):
-        """correo = self.entry_correo.get().strip()
+        correo = self.entry_correo.get().strip()
         contra = self.entry_contra.get().strip()
 
         if not correo or not contra:
             messagebox.showwarning("Campos vacíos", "Por favor ingresa tu correo y contraseña.")
             return
 
-        usuario = self.usuario_service.buscar_por_correo(correo, contra)"""
-        usuario = self.usuario_service.buscar_por_correo("yefry@correo.com", "hash123")
+        usuario = self.usuario_service.buscar_por_correo(correo, contra)
         if usuario:
             self.on_login(usuario)
         else:

@@ -61,6 +61,6 @@ class FormularioDeuda(tk.Toplevel):
             interes=interes
         )
 
-        self.servicio_deuda.crear(deuda)
+        self.servicio_deuda.registrar_deuda(deuda)
         self.on_guardar()
         self.destroy()

@@ -3,7 +3,7 @@ from openpyxl.styles import Font
 from tkinter import filedialog, messagebox
 import os
 
-def exportar_excel(treeview, nombre_archivo="exportado.xlsx"):
+def exportar_excel(treeview, nombre_archivo="archivo.xlsx"):
     # Diálogo para guardar
     ruta = filedialog.asksaveasfilename(
         defaultextension=".xlsx",

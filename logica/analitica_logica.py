@@ -129,9 +129,8 @@ class AnalyticsService:
         resumen = defaultdict(lambda: {"asignado": 0.0, "usado": 0.0})
 
         for p in presupuestos:
-            fecha = p.fecha_inicio[:10]
-            resumen[fecha]["asignado"] += p.monto
-            resumen[fecha]["usado"] += p.total_utilizado  # Asumiendo que se calcula
+            fecha = p.fecha_inicio
+            resumen[fecha]["asignado"] += p.cantidad
 
         return dict(sorted(resumen.items()))
 

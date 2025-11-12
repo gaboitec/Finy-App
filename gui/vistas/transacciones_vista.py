@@ -62,7 +62,7 @@ class TransaccionesView(tk.Frame):
         )
 
     def _exportar_pdf(self):
-        exportar_excel(self.tabla.tree)
+        print("Exportar a PDF (pendiente de implementación)")
 
     def _exportar_excel(self):
-        print("Exportar a Excel (pendiente de implementación)")
+        exportar_excel(self.tabla.tree, "transacciones.xlsx")

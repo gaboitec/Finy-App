@@ -9,18 +9,7 @@ class DeudaService:
     def __init__(self, repo: DeudasRepo):
         self.repo = repo
 
-    def registrar_deuda(self, id_usuario: int, plazo_inicio: date, plazo_fin: date, cantidad: float, interes: float, descripcion: str) -> int:
-        deuda = Deuda(
-            id=None,
-            id_usuario=id_usuario,
-            plazo_inicio=plazo_inicio,
-            plazo_fin=plazo_fin,
-            cantidad=cantidad,
-            interes=interes,
-            descripcion=descripcion,
-            estado=EstadoDeuda.PENDIENTE,
-            fecha_pago=date.today()
-        )
+    def registrar_deuda(self, deuda):
         return self.repo.crear(deuda)
 
     def listar_por_usuario(self, id_usuario: int) -> list[Deuda]:

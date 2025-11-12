@@ -58,6 +58,6 @@ class FormularioDeudor(tk.Toplevel):
             plazo_inicio=datetime.fromisoformat(finicio).isoformat(),
         )
 
-        self.servicio_deudor.crear(deudor)
+        self.servicio_deudor.registrar_deudor(deudor)
         self.on_guardar()
         self.destroy()

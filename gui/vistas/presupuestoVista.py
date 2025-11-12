@@ -8,6 +8,8 @@ from gestores.presupuestos_gestor import PresupuestosRepo
 from logica.categoria_logica import CategoriaService
 from gestores.categorias_gestor import CategoriasRepo
 
+from logica.exportar_excel import exportar_excel
+
 class PresupuestosView(tk.Frame):
     def __init__(self, master, usuario):
         super().__init__(master)
@@ -44,8 +46,8 @@ class PresupuestosView(tk.Frame):
         for tx in transacciones:
             self.tabla.agregar_fila([
                 tx.categoria,
-                tx.fecha_inicio[:10],
-                tx.fecha_fin[:10],
+                tx.fecha_inicio,
+                tx.fecha_fin,
                 f"Q {tx.cantidad:.2f}"
             ])
 
@@ -62,4 +64,4 @@ class PresupuestosView(tk.Frame):
         print("Exportar a PDF (pendiente de implementación)")
 
     def _exportar_excel(self):
-        print("Exportar a Excel (pendiente de implementación)")
+        exportar_excel(self.tabla.tree)

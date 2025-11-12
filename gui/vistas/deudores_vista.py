@@ -6,6 +6,8 @@ from gui.componentes.formulario_deudor import FormularioDeudor
 from logica.deudor_logica import DeudorService
 from gestores.deudores_gestor import DeudoresRepo
 
+from logica.exportar_excel import exportar_excel
+
 class DeudoresView(tk.Frame):
     def __init__(self, master, usuario):
         super().__init__(master)
@@ -52,8 +54,7 @@ class DeudoresView(tk.Frame):
         FormularioDeudor(
             self,
             usuario=self.usuario,
-            servicio_categoria=None,
-            servicio_tx = self.tx_service,
+            servicio_deudor = self.tx_service,
             on_guardar=self._cargar_transacciones
         )
 
@@ -61,4 +62,4 @@ class DeudoresView(tk.Frame):
         print("Exportar a PDF (pendiente de implementación)")
 
     def _exportar_excel(self):
-        print("Exportar a Excel (pendiente de implementación)")
+        exportar_excel(self.tabla.tree, "deudores.xlsx")

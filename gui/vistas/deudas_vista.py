@@ -8,6 +8,8 @@ from gestores.deudas_gestor import DeudasRepo
 from logica.categoria_logica import CategoriaService
 from gestores.categorias_gestor import CategoriasRepo
 
+from logica.exportar_excel import exportar_excel
+
 class DeudasView(tk.Frame):
     def __init__(self, master, usuario):
         super().__init__(master)
@@ -55,8 +57,7 @@ class DeudasView(tk.Frame):
         FormularioDeuda(
             self,
             usuario=self.usuario,
-            servicio_categoria=self.cat_service,
-            servicio_tx = self.tx_service,
+            servicio_deuda = self.tx_service,
             on_guardar=self._cargar_transacciones
         )
 
@@ -64,4 +65,5 @@ class DeudasView(tk.Frame):
         print("Exportar a PDF (pendiente de implementación)")
 
     def _exportar_excel(self):
-        print("Exportar a Excel (pendiente de implementación)")
+        print("Exportando")
+        exportar_excel(self.tabla.tree)

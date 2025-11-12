@@ -7,17 +7,7 @@ class DeudorService:
     def __init__(self, repo: DeudoresRepo):
         self.repo = repo
 
-    def registrar_deudor(self, id_usuario: int, nombre: str, contacto: str, cantidad: float, plazo_inicio: date, plazo_fin: date) -> int:
-        deudor = Deudor(
-            id=None,
-            id_usuario=id_usuario,
-            nombre=nombre,
-            contacto=contacto,
-            cantidad=cantidad,
-            plazo_inicio=plazo_inicio,
-            plazo_fin=plazo_fin,
-            estado=EstadoDeuda.ACTIVA
-        )
+    def registrar_deudor(self, deudor):
         return self.repo.crear(deudor)
 
     def listar_por_usuario(self, id_usuario: int) -> list[Deudor]:
